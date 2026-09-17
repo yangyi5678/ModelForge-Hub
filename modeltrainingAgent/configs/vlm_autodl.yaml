@@ -1,0 +1,49 @@
+task:
+  task_id: qwen25-vl-autodl-hpo
+  task_type: llm_finetuning
+  dataset_uri: vlm_project/configs/qwen25_vl.yaml
+  base_checkpoint_uri: /root/autodl-tmp/models/Qwen2.5-VL-3B-Instruct
+  random_seed: 42
+  fixed_training_config:
+    trainer_adapter: vlm
+    model_config_uri: vlm_project/configs/qwen25_vl.yaml
+    model_entrypoint: python://vlm_project.adapters.training_agent_entrypoints:build_model
+    loss_entrypoint: python://vlm_project.adapters.training_agent_entrypoints:build_loss
+    optimizer_entrypoint: python://vlm_project.adapters.training_agent_entrypoints:build_optimizer
+    scheduler_entrypoint: python://vlm_project.adapters.training_agent_entrypoints:build_scheduler
+
+execution:
+  mode: local
+  max_retries: 3
+
+optimization:
+  study_name: qwen25-vl-autodl-hpo
+  storage_key: OPTUNA_STORAGE_MAIN
+  sampler: tpe
+  direction: minimize
+  objective: val_loss
+  target_value:
+  max_trials: 5
+  max_duration_seconds: 86400
+  patience: 3
+  min_delta: 0.001
+  search_space:
+    learning_rate:
+      type: float
+      low: 1.0e-5
+      high: 5.0e-4
+      log: true
+    weight_decay:
+      type: float
+      low: 0.0
+      high: 0.1
+    batch_size:
+      type: categorical
+      choices: [1, 2]
+
+training:
+  epochs: 3
+  precision: bfloat16
+
+artifacts_dir: /root/autodl-tmp/artifacts
+repository_uri: /root/autodl-tmp/artifacts/trials.sqlite
