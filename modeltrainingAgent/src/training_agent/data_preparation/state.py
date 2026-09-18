@@ -22,6 +22,10 @@ class DataPreparationState(TypedDict, total=False):
     validation_dataset_uri: str
     local_data_root: str
     model_dataset_format: str
+    localized_train_manifest_path: str
+    localized_val_manifest_path: str
+    localized_train_count: int
+    localized_val_count: int
     runtime_dataset_uri: str
     runtime_dataset: dict[str, Any]
     dataset_version: str
