@@ -138,6 +138,10 @@ class VLMTrainerAdapter:
             }
         )
         cfg["training"] = {key: value for key, value in training.items() if value is not None}
+        data = dict(cfg.get("data", {}))
+        data["train_jsonl_path"] = context.train_dataset_uri
+        data["val_jsonl_path"] = context.validation_dataset_uri
+        cfg["data"] = data
         cfg["output"] = {"dir": context.artifact_dir}
         return cfg
 

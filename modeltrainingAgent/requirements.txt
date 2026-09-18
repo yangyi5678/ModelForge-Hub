@@ -1,0 +1,22 @@
+# Full runtime for AutoDL training:
+# - training_agent orchestration
+# - data_preparation pipeline
+# - vlm_project Qwen2.5-VL fine-tuning
+
+# Training agent / pipeline
+langgraph>=0.2.60,<0.3.0
+langgraph-checkpoint-sqlite>=2.0.1,<3.0.0
+optuna>=4.1.0,<5.0.0
+pydantic>=2.9.0,<3.0.0
+pydantic-settings>=2.5.0,<3.0.0
+PyYAML>=6.0.2,<7.0.0
+typer>=0.12.5,<1.0.0
+oss2>=2.18,<3.0
+psycopg2-binary>=2.9,<3.0
+
+# VLM training
+torch>=2.2,<3.0
+transformers>=4.49,<5.0
+peft>=0.13,<1.0
+accelerate>=0.34,<2.0
+Pillow>=10.0,<13.0

@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68,<85", "wheel>=0.42,<1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vlm-project"
+version = "0.1.0"
+description = "VLM training project entrypoints for the training agent."
+requires-python = ">=3.11,<3.15"
+
+[tool.setuptools]
+packages = ["vlm_project"]
+
+[tool.setuptools.package-dir]
+vlm_project = "."

@@ -1,0 +1,55 @@
+data:
+  db_url: postgresql://user:password@host:5432/vlm_metadata
+  table: vlm_training_data
+
+  # 表中假设有：
+  # image_path
+  # question
+  # answer
+
+  oss:
+    endpoint: https://oss-cn-hangzhou.aliyuncs.com
+    bucket: your-bucket
+
+model:
+  path: /data/models/Qwen2.5-VL-3B-Instruct
+
+  dtype: bfloat16
+
+  # full / partial / lora
+  finetune_mode: lora
+
+  lora:
+    r: 16
+    alpha: 32
+    dropout: 0.05
+
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+
+  partial:
+    train_modules:
+      - q_proj
+      - v_proj
+
+training:
+  epochs: 3
+  batch_size: 1
+  gradient_accumulation_steps: 8
+
+  learning_rate: 0.0002
+  weight_decay: 0.01
+
+  max_grad_norm: 1.0
+
+  gradient_checkpointing: true
+
+scheduler:
+  type: cosine
+  warmup_ratio: 0.03
+
+output:
+  dir: ./outputs/qwen25_vl
